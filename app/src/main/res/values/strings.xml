@@ -1,0 +1,44 @@
+<resources>
+    <string name="PIN">PIN #1 1234</string>
+    <string name="app_name">FYP</string>
+    <string name="handedness">Handedness</string>
+    <string name="usedHand">UsedHand</string>
+    <string name="biologicalGender">BiologicalGender</string>
+    <string name="Surface">Surface</string>
+    <string name="ScreenProtector">ScreenProtector</string>
+    <string name="PhoneCase">PhoneCase</string>
+    <string name="Environment">Environment</string>
+    <string-array name="handedness">
+        <item>Left</item>
+        <item>Right</item>
+        <item>Ambidextrous</item>
+    </string-array>
+    <string-array name="usedHand">
+        <item>Left</item>
+        <item>Right</item>
+        <item>Both</item>
+    </string-array>
+    <string-array name="biologicalGender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+    <string-array name="Surface">
+        <item>Metal</item>
+        <item>Wood</item>
+        <item>Plastic</item>
+        <item>Hand</item>
+    </string-array>
+    <string-array name="ScreenProtector">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+    <string-array name="PhoneCase">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+    <string-array name="Environment">
+        <item>Quiet(Library)</item>
+        <item>Normal</item>
+        <item>Loud(Canteen)</item>
+    </string-array>
+</resources>

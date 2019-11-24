@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/topLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:textSize="@android:dimen/app_icon_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter PIN [1234]"
+            android:background="@drawable/back"
+            android:textAlignment="center" />
+
+
+        <TextView
+            android:id="@+id/textView3"
+            android:textSize="@android:dimen/app_icon_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:background="@drawable/back"
+            android:text="" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/leftButtons"
+
+        android:layout_width="140dp"
+        android:layout_height="700dp"
+        android:gravity="center"
+        android:layout_below="@id/topLayout"
+        android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/button7"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="20dp"
+                    android:onClick="pinButton7"
+                    android:text="7" />
+
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="20dp"
+                    android:onClick="pinButton4"
+                    android:text="4" />
+
+                <Button
+                    android:id="@+id/button1"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="20dp"
+                    android:onClick="pinButton1"
+                    android:text="1" />
+
+                <Button
+                    android:id="@+id/buttonDelete"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="20dp"
+                    android:onClick="pinButtonDelete"
+                    android:text="Delete" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/centerButtons"
+        android:layout_width="140dp"
+        android:layout_height="700dp"
+        android:gravity="center"
+        android:layout_below="@id/topLayout"
+        android:layout_toRightOf="@id/leftButtons"
+        android:orientation="vertical"
+        android:layout_toEndOf="@id/leftButtons">
+
+        <Button
+            android:id="@+id/button8"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="20dp"
+            android:onClick="pinButton8"
+            android:text="8" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="20dp"
+            android:onClick="pinButton5"
+            android:text="5" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="20dp"
+            android:onClick="pinButton2"
+            android:text="2" />
+
+        <Button
+            android:id="@+id/button0"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="20dp"
+            android:onClick="pinButton0"
+            android:text="0" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rightButtons"
+        android:layout_width="140dp"
+        android:layout_height="700dp"
+        android:layout_below="@id/topLayout"
+        android:layout_toRightOf="@id/centerButtons"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_toEndOf="@id/centerButtons">
+
+        <Button
+            android:id="@+id/button9"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="20dp"
+            android:onClick="pinButton9"
+            android:text="9" />
+
+        <Button
+            android:id="@+id/button6"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="20dp"
+            android:onClick="pinButton6"
+            android:text="6" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="20dp"
+            android:onClick="pinButton3"
+            android:text="3" />
+
+        <Button
+            android:id="@+id/buttonEnter"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="20dp"
+            android:onClick="pinButtonEnter"
+            android:text="Enter" />
+
+    </LinearLayout>
+
+</RelativeLayout>
+
