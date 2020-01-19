@@ -22,4 +22,10 @@ public class Confirmation extends AppCompatActivity
         Intent intent = new Intent (this, pinEntry.class);
         startActivity(intent);
     }
+
+    public void confirmedPassword(View view)
+    {
+        Intent intent = new Intent (this, passwordEntry.class);
+        startActivity(intent);
+    }
 }

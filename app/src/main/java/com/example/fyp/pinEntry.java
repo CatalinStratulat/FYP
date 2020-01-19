@@ -7,11 +7,10 @@ import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.view.SoundEffectConstants;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,8 +45,7 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     private boolean isRecording = false;
     private int BufferElements2Rec = 1024; // want to play 2048 (2K) since 2 bytes we use only 1024
     private int BytesPerElement = 2; // 2 bytes in 16bit format
-
-    final int REQUEST_PERMISSION_CODE = 1000;
+    private final int REQUEST_PERMISSION_CODE = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -238,6 +236,7 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     }
 
     public void pinButtonDelete(View view) {
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         CharSequence text = textview.getText();
         if (text.length() > 0) {
@@ -250,6 +249,7 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     }
 
     public void pinButtonEnter(View view) {
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview3 = findViewById(R.id.textView3);
         TextView textview1 = findViewById(R.id.textView1);
         long currentTimestamp = System.currentTimeMillis();
@@ -257,7 +257,7 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
         TouchDetected.add(touch);
 
         if (textview3.length() == 4) {
-            if (pinNr < 2) {
+            if (pinNr < 1) {
 //                Toast.makeText(pinEntry.this, "" + textview3.getText() + " Has Been Entered", Toast.LENGTH_SHORT).show();
                 String figure = "";
                 textview3.setText(figure);
@@ -265,7 +265,7 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
                 String title = "Enter PIN [" + (pinList.get(pinNr)) + "]";
                 textview1.setText(title);
                 pinNr = pinNr + 1;
-            } else if (pinNr == 2) {
+            } else if (pinNr == 1) {
                 ArrayList<String> properList = ((Data) this.getApplication()).getList();
                 properList.add("audio_file_path" + "=");
 
@@ -285,6 +285,7 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     }
 
     public void pinButton3(View view) {
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
             String str = "3";
@@ -297,6 +298,7 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
 
     public void pinButton6(View view) {
         TextView textview = findViewById(R.id.textView3);
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         if (textview.length() < 4) {
             String str = "6";
             textview.append(str);
@@ -307,6 +309,8 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     }
 
     public void pinButton9(View view) {
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
             String str = "9";
@@ -318,6 +322,8 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     }
 
     public void pinButton0(View view) {
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
             String str = "0";
@@ -329,6 +335,7 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     }
 
     public void pinButton2(View view) {
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
             String str = "2";
@@ -340,6 +347,7 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     }
 
     public void pinButton5(View view) {
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
             String str = "5";
@@ -351,6 +359,7 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     }
 
     public void pinButton8(View view) {
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
             String str = "8";
@@ -362,6 +371,7 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     }
 
     public void pinButton1(View view) {
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         view.playSoundEffect(android.view.SoundEffectConstants.CLICK);
         if (textview.length() < 4) {
@@ -374,6 +384,7 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     }
 
     public void pinButton4(View view) {
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
             String str = "4";
@@ -386,6 +397,7 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
 
     public void pinButton7(View view) {
         TextView textview = findViewById(R.id.textView3);
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         if (textview.length() < 4) {
             String str = "7";
             textview.append(str);
