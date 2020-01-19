@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -30,16 +31,16 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class pinEntry extends AppCompatActivity implements View.OnTouchListener {
-    private ArrayList<String> pinList = new ArrayList<>();
-    private int pinNr = 1;
-    String path;
-    String pathToSave;
-    Long startTime;
-    ArrayList<String> TouchDetected;
 
     private static final int RECORDER_SAMPLERATE = 48000;
     private static final int RECORDER_CHANNELS = AudioFormat.CHANNEL_IN_STEREO;
     private static final int RECORDER_AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
+    private ArrayList<String> pinList = new ArrayList<>();
+    private int pinNr = 1;
+    private String path = Environment.getExternalStorageDirectory().getAbsolutePath();
+    private Long startTime;
+    private ArrayList<String> TouchDetected;
+    private String newpath = path + "/FYP" + "/Pins" + "/" + UUID.randomUUID().toString() + "/";
     private AudioRecord recorder = null;
     private Thread recordingThread = null;
     private boolean isRecording = false;
@@ -69,6 +70,7 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pin_entry);
         setButtonHandlers();
+        createFileStructure();
 
         //the whole screen becomes sensitive to touch
         RelativeLayout mLinearLayoutMain = findViewById(R.id.relativeLayout);
@@ -77,8 +79,6 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
         if (!CheckPermissionFromDevice()) {
             requestPermission();
         }
-        path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + UUID.randomUUID().toString();
-        pathToSave = path + "_audio_record.3gp";
 
         findViewById(R.id.btnStart).performClick();
     }
@@ -86,6 +86,14 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     private void setButtonHandlers() {
         (findViewById(R.id.btnStart)).setOnClickListener(btnClick);
         (findViewById(R.id.btnStop)).setOnClickListener(btnClick);
+    }
+
+    private void createFileStructure() {
+        File pins = new File(newpath);
+        if(!pins.isDirectory())
+        {
+            pins.mkdirs();
+        }
     }
 
     private void enableButton(int id, boolean isEnable) {
@@ -131,8 +139,8 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
 
     private void writeAudioDataToFile() {
         // Write the output audio in byte
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + UUID.randomUUID().toString();
-        String pathToSave = path + "_audio_record.pcm";
+
+        String pathToSave = newpath + "audio_record.pcm";
 //        String filePath = "/sdcard/voice8K16bitmono.pcm";
         short sData[] = new short[BufferElements2Rec];
 
@@ -172,7 +180,6 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
             recorder.release();
             recorder = null;
             recordingThread = null;
-            System.exit(0);
         }
     }
 
@@ -260,11 +267,13 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
                 pinNr = pinNr + 1;
             } else if (pinNr == 2) {
                 ArrayList<String> properList = ((Data) this.getApplication()).getList();
-                properList.add("audio_file_path" + "=" + pathToSave);
-//                findViewById(R.id.btnStop).performClick();
+                properList.add("audio_file_path" + "=");
+
+                findViewById(R.id.btnStop).performClick();
 
                 System.out.println(TouchDetected.toString());
                 processList(properList,TouchDetected);
+                finish();
 //                  generateNoteOnSD(output);
 //                Toast.makeText(pinEntry.this, "Thank you for completing this sample run", Toast.LENGTH_SHORT).show();
             }
@@ -390,7 +399,7 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     public void processList(ArrayList<String> properList,ArrayList<String> TouchList)
     {
         Workbook workbook = new XSSFWorkbook();
-        String fullpath = path + "_FileName.xlsx";
+        String fullpath = newpath + "data.xlsx";
 
         File excelFile = new File(fullpath);
         if(!excelFile.exists())
