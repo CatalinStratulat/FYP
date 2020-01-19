@@ -1,0 +1,96 @@
+Pin Entry Class:
+
+//        for(String item : properList)
+//        {
+//            int location = item.indexOf("=");
+//            if (location != -1)
+//            {
+//                String key = item.substring(0, location);
+//                String value = item.substring(1, location);
+//                Row row = sheet.createRow(properList.indexOf(item));
+//                row.createCell(properList.indexOf(item)).setCellValue(key);
+//            }
+//        }
+//class BooVariable {
+//    private int presses = 0;
+//    private ChangeListener listener;
+//
+//    public int getPResses() {
+//        return presses;
+//    }
+//
+//    public void increment() {
+//        presses = presses + 1;
+//        if (listener != null) listener.onChange();
+//    }
+//
+//    public void decrement() {
+//        if (presses > 0)
+//        {
+//            presses = presses - 1;
+//            if (listener != null) listener.onChange();
+//        }
+//    }
+//
+//    public ChangeListener getListener() {
+//        return listener;
+//    }
+//
+//    public void setListener(ChangeListener listener) {
+//        this.listener = listener;
+//    }
+//
+//    public interface ChangeListener {
+//        void onChange();
+//    }
+//}
+
+
+
+//            recorder.prepare();
+//            recorder.start();
+
+//            startTime = System.currentTimeMillis();
+//            System.out.println(startTime);
+//            TouchDetected = new ArrayList<>();
+
+//            Toast.makeText(pinEntry.this, "Recording...", Toast.LENGTH_SHORT).show();
+
+
+
+
+//    private void setupMediaRecorder()
+//    {
+
+
+//        final int RECORDER_BPP = 16;
+//        final int RECORDER_SAMPLERATE = 48000;
+//        final int RECORDER_CHANNELS = AudioFormat.CHANNEL_IN_STEREO;
+//        int RECORDER_AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
+//
+//        AudioRecord audioInputStream1 = new AudioRecord(MediaRecorder.AudioSource.MIC,
+//                RECORDER_SAMPLERATE, RECORDER_CHANNELS, RECORDER_AUDIO_ENCODING,
+//                RECORDER_BPP);
+//
+//        int BufferElements2Rec = 1024; // want to play 2048 (2K) since 2 bytes we use only 1024
+//        int BytesPerElement = 2; // 2 bytes in 16bit format
+//        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+//        recorder.setAudioSamplingRate(48000);
+//        recorder.setAudioChannels(AudioFormat.CHANNEL_IN_STEREO);
+//        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+//        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+//        recorder.setOutputFile(pathToSave);
+//    }
+
+
+
+//        if (CheckPermissionFromDevice())
+//        {
+//            enableButtons(false);
+//            startRecording();
+//        }
+//        else
+//        {
+//            requestPermission();
+//        }
+//        Toast.makeText(pinEntry.this, "Permission was granted", Toast.LENGTH_SHORT).show();

@@ -22,6 +22,7 @@
         </activity>
         <activity android:name=".pinEntry" android:screenOrientation="portrait" />
         <activity android:name=".Confirmation"/>
+        <activity android:name=".Audio_Record" />
     </application>
 
 </manifest>
