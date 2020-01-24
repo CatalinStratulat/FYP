@@ -2,8 +2,7 @@ package com.example.fyp;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.media.AudioFormat;
-import android.media.AudioRecord;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,7 +22,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,20 +29,14 @@ import java.util.UUID;
 
 public class pinEntry extends AppCompatActivity implements View.OnTouchListener {
 
-    private static final int RECORDER_SAMPLERATE = 48000;
-    private static final int RECORDER_CHANNELS = AudioFormat.CHANNEL_IN_STEREO;
-    private static final int RECORDER_AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
     private ArrayList<String> pinList = new ArrayList<>();
     private int pinNr = 1;
     private String path = Environment.getExternalStorageDirectory().getAbsolutePath();
     private Long startTime;
+    private long delay = 80000000;
     private ArrayList<String> TouchDetected;
     private String newpath = path + "/FYP" + "/Pins" + "/" + UUID.randomUUID().toString() + "/";
-    private AudioRecord recorder = null;
-    private Thread recordingThread = null;
-    private boolean isRecording = false;
-    private int BufferElements2Rec = 1024; // want to play 2048 (2K) since 2 bytes we use only 1024
-    private int BytesPerElement = 2; // 2 bytes in 16bit format
+    private MediaRecorder recorder = null;
     private final int REQUEST_PERMISSION_CODE = 1000;
 
     @Override
@@ -67,7 +59,6 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pin_entry);
-        setButtonHandlers();
         createFileStructure();
 
         //the whole screen becomes sensitive to touch
@@ -77,13 +68,39 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
         if (!CheckPermissionFromDevice()) {
             requestPermission();
         }
-
-        findViewById(R.id.btnStart).performClick();
+        setupMediaRecorders();
+        startRecording();
     }
 
-    private void setButtonHandlers() {
-        (findViewById(R.id.btnStart)).setOnClickListener(btnClick);
-        (findViewById(R.id.btnStop)).setOnClickListener(btnClick);
+    private void setupMediaRecorders()
+    {
+        recorder = new MediaRecorder();
+        recorder.setAudioChannels(2);
+        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        recorder.setAudioSamplingRate(48000);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        recorder.setOutputFile(newpath+"audio_stereo.mp3");
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+    }
+
+    private void startRecording()
+    {
+        System.out.println(startTime);
+        TouchDetected = new ArrayList<>();
+        try {
+            recorder.prepare();
+            startTime = System.nanoTime();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        recorder.start();
+    }
+
+    private void stopRecording()
+    {
+        recorder.stop();
+        recorder.release();
+        recorder = null;
     }
 
     private void createFileStructure() {
@@ -93,110 +110,6 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
             pins.mkdirs();
         }
     }
-
-    private void enableButton(int id, boolean isEnable) {
-        (findViewById(id)).setEnabled(isEnable);
-    }
-
-    private void enableButtons(boolean isRecording) {
-        enableButton(R.id.btnStart, !isRecording);
-        enableButton(R.id.btnStop, isRecording);
-    }
-
-    private void startRecording() {
-
-        recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,
-                RECORDER_SAMPLERATE, RECORDER_CHANNELS,
-                RECORDER_AUDIO_ENCODING, BufferElements2Rec * BytesPerElement);
-
-        recorder.startRecording();
-        isRecording = true;
-        recordingThread = new Thread(new Runnable() {
-            public void run() {
-                writeAudioDataToFile();
-            }
-        }, "AudioRecorder Thread");
-        recordingThread.start();
-        startTime = System.currentTimeMillis();
-        System.out.println(startTime);
-        TouchDetected = new ArrayList<>();
-    }
-
-    //convert short to byte
-    private byte[] short2byte(short[] sData) {
-        int shortArrsize = sData.length;
-        byte[] bytes = new byte[shortArrsize * 2];
-        for (int i = 0; i < shortArrsize; i++) {
-            bytes[i * 2] = (byte) (sData[i] & 0x00FF);
-            bytes[(i * 2) + 1] = (byte) (sData[i] >> 8);
-            sData[i] = 0;
-        }
-        return bytes;
-
-    }
-
-    private void writeAudioDataToFile() {
-        // Write the output audio in byte
-
-        String pathToSave = newpath + "audio_record.pcm";
-//        String filePath = "/sdcard/voice8K16bitmono.pcm";
-        short sData[] = new short[BufferElements2Rec];
-
-        FileOutputStream os = null;
-        try {
-            os = new FileOutputStream(pathToSave);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        while (isRecording) {
-            // gets the voice output from microphone to byte format
-
-            recorder.read(sData, 0, BufferElements2Rec);
-            System.out.println("Short wirting to file" + sData.toString());
-            try {
-                // // writes the data to file from buffer
-                // // stores the voice buffer
-                byte bData[] = short2byte(sData);
-                os.write(bData, 0, BufferElements2Rec * BytesPerElement);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        try {
-            os.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void stopRecording() {
-        // stops the recording activity
-        if (null != recorder) {
-            isRecording = false;
-            recorder.stop();
-            recorder.release();
-            recorder = null;
-            recordingThread = null;
-        }
-    }
-
-    private View.OnClickListener btnClick = new View.OnClickListener() {
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.btnStart: {
-                    enableButtons(true);
-                    startRecording();
-                    break;
-                }
-                case R.id.btnStop: {
-                    enableButtons(false);
-                    stopRecording();
-                    break;
-                }
-            }
-        }
-    };
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -242,19 +155,19 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
         if (text.length() > 0) {
             CharSequence subtext = text.subSequence(0, text.length() - 1);
             textview.setText(subtext);
-            long currentTimestamp = System.currentTimeMillis();
-            String touch = "Valid{Delete} "+((currentTimestamp-startTime)*1000);
+            long currentTimestamp = System.nanoTime();
+            String touch = "Delete "+((currentTimestamp-startTime-delay));
             TouchDetected.add(touch);
         }
     }
 
     public void pinButtonEnter(View view) {
+        long currentTimestamp = System.nanoTime();
+        String touch = "Enter "+((currentTimestamp-startTime-delay));
+        TouchDetected.add(touch);
         view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview3 = findViewById(R.id.textView3);
         TextView textview1 = findViewById(R.id.textView1);
-        long currentTimestamp = System.currentTimeMillis();
-        String touch = "Valid{Enter} "+((currentTimestamp-startTime)*1000);
-        TouchDetected.add(touch);
 
         if (textview3.length() == 4) {
             if (pinNr < 1) {
@@ -267,15 +180,10 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
                 pinNr = pinNr + 1;
             } else if (pinNr == 1) {
                 ArrayList<String> properList = ((Data) this.getApplication()).getList();
-                properList.add("audio_file_path" + "=");
-
-                findViewById(R.id.btnStop).performClick();
-
+                stopRecording();
                 System.out.println(TouchDetected.toString());
                 processList(properList,TouchDetected);
                 finish();
-//                  generateNoteOnSD(output);
-//                Toast.makeText(pinEntry.this, "Thank you for completing this sample run", Toast.LENGTH_SHORT).show();
             }
 
         } else {
@@ -284,126 +192,134 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
         }
     }
 
-    public void pinButton3(View view) {
+    public void pinButton3(View view)
+    {
+        long currentTimestamp = System.nanoTime();
+        String touch = "3 "+((currentTimestamp-startTime-delay));
+        TouchDetected.add(touch);
         view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
             String str = "3";
             textview.append(str);
-            long currentTimestamp = System.currentTimeMillis();
-            String touch = "Valid{3} "+((currentTimestamp-startTime)*1000);
-            TouchDetected.add(touch);
         }
     }
 
     public void pinButton6(View view) {
+        long currentTimestamp = System.nanoTime();
+        String touch = "6 "+((currentTimestamp-startTime-delay));
+        TouchDetected.add(touch);
         TextView textview = findViewById(R.id.textView3);
         view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         if (textview.length() < 4) {
             String str = "6";
             textview.append(str);
-            long currentTimestamp = System.currentTimeMillis();
-            String touch = "Valid{6} "+((currentTimestamp-startTime)*1000);
-            TouchDetected.add(touch);
         }
     }
 
     public void pinButton9(View view) {
+        long currentTimestamp = System.nanoTime();
+        String touch = "9 "+((currentTimestamp-startTime-delay));
+        TouchDetected.add(touch);
         view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
             String str = "9";
             textview.append(str);
-            long currentTimestamp = System.currentTimeMillis();
-            String touch = "Valid{9} "+((currentTimestamp-startTime)*1000);
-            TouchDetected.add(touch);
+
         }
     }
 
     public void pinButton0(View view) {
+        long currentTimestamp = System.nanoTime();
+        String touch = "0 "+((currentTimestamp-startTime-delay));
+        TouchDetected.add(touch);
         view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
             String str = "0";
             textview.append(str);
-            long currentTimestamp = System.currentTimeMillis();
-            String touch = "Valid{0} "+((currentTimestamp-startTime)*1000);
-            TouchDetected.add(touch);
+
         }
     }
 
     public void pinButton2(View view) {
+        long currentTimestamp = System.nanoTime();
+        String touch = "2 "+((currentTimestamp-startTime-delay));
+        TouchDetected.add(touch);
         view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
             String str = "2";
             textview.append(str);
-            long currentTimestamp = System.currentTimeMillis();
-            String touch = "Valid{2} "+((currentTimestamp-startTime)*1000);
-            TouchDetected.add(touch);
+
         }
     }
 
     public void pinButton5(View view) {
+        long currentTimestamp = System.nanoTime();
+        String touch = "5 "+((currentTimestamp-startTime-delay));
+        TouchDetected.add(touch);
         view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
             String str = "5";
             textview.append(str);
-            long currentTimestamp = System.currentTimeMillis();
-            String touch = "Valid{5} "+((currentTimestamp-startTime)*1000);
-            TouchDetected.add(touch);
+
         }
     }
 
     public void pinButton8(View view) {
+        long currentTimestamp = System.nanoTime();
+        String touch = "Valid{8} "+((currentTimestamp-startTime-delay));
+        TouchDetected.add(touch);
         view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
             String str = "8";
             textview.append(str);
-            long currentTimestamp = System.currentTimeMillis();
-            String touch = "Valid{8} "+((currentTimestamp-startTime)*1000);
-            TouchDetected.add(touch);
+
         }
     }
 
     public void pinButton1(View view) {
+        long currentTimestamp = System.nanoTime();
+        String touch = "1 "+((currentTimestamp-startTime-delay));
+        TouchDetected.add(touch);
         view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         view.playSoundEffect(android.view.SoundEffectConstants.CLICK);
         if (textview.length() < 4) {
             String str = "1";
             textview.append(str);
-            long currentTimestamp = System.currentTimeMillis();
-            String touch = "Valid{1} "+((currentTimestamp-startTime)*1000);
-            TouchDetected.add(touch);
+
         }
     }
 
     public void pinButton4(View view) {
+        long currentTimestamp = System.nanoTime();
+        String touch = "4 "+((currentTimestamp-startTime-delay));
+        TouchDetected.add(touch);
         view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
             String str = "4";
             textview.append(str);
-            long currentTimestamp = System.currentTimeMillis();
-            String touch = "Valid{4} "+((currentTimestamp-startTime)*1000);
-            TouchDetected.add(touch);
+
         }
     }
 
     public void pinButton7(View view) {
+        long currentTimestamp = System.nanoTime();
+        String touch = "7 "+((currentTimestamp-startTime-delay));
+        TouchDetected.add(touch);
         TextView textview = findViewById(R.id.textView3);
         view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         if (textview.length() < 4) {
             String str = "7";
             textview.append(str);
-            long currentTimestamp = System.currentTimeMillis();
-            String touch = "Valid{7} "+((currentTimestamp-startTime)*1000);
-            TouchDetected.add(touch);
         }
     }
 
@@ -473,10 +389,9 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     @Override
     public boolean onTouch(View v, MotionEvent event)
     {
-        long currentTimestamp = System.currentTimeMillis();
-        String touch = "Invalid "+((currentTimestamp-startTime)*1000);
+        long currentTimestamp = System.nanoTime();
+        String touch = "Invalid "+((currentTimestamp-startTime-delay));
         TouchDetected.add(touch);
-//        Toast.makeText(pinEntry.this, "Invalid Touch Detected at ="+currentTimestamp+" time started ="+startTime+" with difference ="+(currentTimestamp-startTime), Toast.LENGTH_SHORT).show();
         return false;
     }
 }
