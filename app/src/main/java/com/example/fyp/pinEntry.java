@@ -33,7 +33,7 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     private int pinNr = 1;
     private String path = Environment.getExternalStorageDirectory().getAbsolutePath();
     private Long startTime;
-    private long delay = 80000000;
+    private long delay = 85000000;
     private ArrayList<String> TouchDetected;
     private String newpath = path + "/FYP" + "/Pins" + "/" + UUID.randomUUID().toString() + "/";
     private MediaRecorder recorder = null;
@@ -89,11 +89,11 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
         TouchDetected = new ArrayList<>();
         try {
             recorder.prepare();
-            startTime = System.nanoTime();
         } catch (IOException e) {
             e.printStackTrace();
         }
         recorder.start();
+        startTime = System.nanoTime();
     }
 
     private void stopRecording()
@@ -149,28 +149,29 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     }
 
     public void pinButtonDelete(View view) {
-        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+        long currentTimestamp = System.nanoTime();
+        String touch = ""+((currentTimestamp-startTime-delay));
+        TouchDetected.add(touch);
+//        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         CharSequence text = textview.getText();
         if (text.length() > 0) {
             CharSequence subtext = text.subSequence(0, text.length() - 1);
             textview.setText(subtext);
-            long currentTimestamp = System.nanoTime();
-            String touch = "Delete "+((currentTimestamp-startTime-delay));
-            TouchDetected.add(touch);
+
         }
     }
 
     public void pinButtonEnter(View view) {
         long currentTimestamp = System.nanoTime();
-        String touch = "Enter "+((currentTimestamp-startTime-delay));
+        String touch = ""+((currentTimestamp-startTime-delay));
         TouchDetected.add(touch);
-        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+//        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview3 = findViewById(R.id.textView3);
         TextView textview1 = findViewById(R.id.textView1);
 
         if (textview3.length() == 4) {
-            if (pinNr < 1) {
+            if (pinNr < 5) {
 //                Toast.makeText(pinEntry.this, "" + textview3.getText() + " Has Been Entered", Toast.LENGTH_SHORT).show();
                 String figure = "";
                 textview3.setText(figure);
@@ -178,7 +179,7 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
                 String title = "Enter PIN [" + (pinList.get(pinNr)) + "]";
                 textview1.setText(title);
                 pinNr = pinNr + 1;
-            } else if (pinNr == 1) {
+            } else if (pinNr == 5) {
                 ArrayList<String> properList = ((Data) this.getApplication()).getList();
                 stopRecording();
                 System.out.println(TouchDetected.toString());
@@ -195,9 +196,9 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     public void pinButton3(View view)
     {
         long currentTimestamp = System.nanoTime();
-        String touch = "3 "+((currentTimestamp-startTime-delay));
+        String touch = ""+((currentTimestamp-startTime-delay));
         TouchDetected.add(touch);
-        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+////        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
             String str = "3";
@@ -207,10 +208,10 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
 
     public void pinButton6(View view) {
         long currentTimestamp = System.nanoTime();
-        String touch = "6 "+((currentTimestamp-startTime-delay));
+        String touch = ""+((currentTimestamp-startTime-delay));
         TouchDetected.add(touch);
         TextView textview = findViewById(R.id.textView3);
-        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+////        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         if (textview.length() < 4) {
             String str = "6";
             textview.append(str);
@@ -219,9 +220,9 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
 
     public void pinButton9(View view) {
         long currentTimestamp = System.nanoTime();
-        String touch = "9 "+((currentTimestamp-startTime-delay));
+        String touch = ""+((currentTimestamp-startTime-delay));
         TouchDetected.add(touch);
-        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+////        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
@@ -233,9 +234,9 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
 
     public void pinButton0(View view) {
         long currentTimestamp = System.nanoTime();
-        String touch = "0 "+((currentTimestamp-startTime-delay));
+        String touch = ""+((currentTimestamp-startTime-delay));
         TouchDetected.add(touch);
-        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+//        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
@@ -247,9 +248,9 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
 
     public void pinButton2(View view) {
         long currentTimestamp = System.nanoTime();
-        String touch = "2 "+((currentTimestamp-startTime-delay));
+        String touch = ""+((currentTimestamp-startTime-delay));
         TouchDetected.add(touch);
-        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+//        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
             String str = "2";
@@ -260,9 +261,9 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
 
     public void pinButton5(View view) {
         long currentTimestamp = System.nanoTime();
-        String touch = "5 "+((currentTimestamp-startTime-delay));
+        String touch = ""+((currentTimestamp-startTime-delay));
         TouchDetected.add(touch);
-        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+//        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
             String str = "5";
@@ -273,9 +274,9 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
 
     public void pinButton8(View view) {
         long currentTimestamp = System.nanoTime();
-        String touch = "Valid{8} "+((currentTimestamp-startTime-delay));
+        String touch = ""+((currentTimestamp-startTime-delay));
         TouchDetected.add(touch);
-        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+//        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
             String str = "8";
@@ -286,9 +287,9 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
 
     public void pinButton1(View view) {
         long currentTimestamp = System.nanoTime();
-        String touch = "1 "+((currentTimestamp-startTime-delay));
+        String touch = ""+((currentTimestamp-startTime-delay));
         TouchDetected.add(touch);
-        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+//        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         view.playSoundEffect(android.view.SoundEffectConstants.CLICK);
         if (textview.length() < 4) {
@@ -300,9 +301,9 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
 
     public void pinButton4(View view) {
         long currentTimestamp = System.nanoTime();
-        String touch = "4 "+((currentTimestamp-startTime-delay));
+        String touch = ""+((currentTimestamp-startTime-delay));
         TouchDetected.add(touch);
-        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+//        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
             String str = "4";
@@ -313,10 +314,10 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
 
     public void pinButton7(View view) {
         long currentTimestamp = System.nanoTime();
-        String touch = "7 "+((currentTimestamp-startTime-delay));
+        String touch = ""+((currentTimestamp-startTime-delay));
         TouchDetected.add(touch);
         TextView textview = findViewById(R.id.textView3);
-        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+//        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         if (textview.length() < 4) {
             String str = "7";
             textview.append(str);
@@ -390,7 +391,7 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     public boolean onTouch(View v, MotionEvent event)
     {
         long currentTimestamp = System.nanoTime();
-        String touch = "Invalid "+((currentTimestamp-startTime-delay));
+        String touch = ""+((currentTimestamp-startTime-delay));
         TouchDetected.add(touch);
         return false;
     }
