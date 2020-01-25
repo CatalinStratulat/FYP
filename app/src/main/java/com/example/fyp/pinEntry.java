@@ -424,23 +424,6 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
                     }
                 }
             }
-
-
-//            System.out.println(currentVar);
-//            variables.createCell(currentVar+1).setCellValue("Touch (ms)");
-//
-//            for(String item : TouchList)
-//            {
-//                if(TouchList.indexOf(item) == 0)
-//                {
-//                    values.createCell(currentVar+1).setCellValue(item);
-//                }
-//                else
-//                {
-//                    Row touches = sheet.createRow(TouchList.indexOf(item)+1);
-//                    touches.createCell(currentVar+1).setCellValue(item);
-//                }
-//            }
             workbook.write(fileOut); //Writing all your row column inside the file
             fileOut.flush();
             fileOut.close(); //closing the file and done
