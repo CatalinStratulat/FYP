@@ -2,11 +2,9 @@ package com.example.fyp;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.media.MediaMetadataRetriever;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,10 +32,13 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     private String path = Environment.getExternalStorageDirectory().getAbsolutePath();
     private Long startTime;
     private long delay = 85000000;
-    private ArrayList<String> TouchDetected;
     private String newpath = path + "/FYP" + "/Pins" + "/" + UUID.randomUUID().toString() + "/";
     private MediaRecorder recorder = null;
     private final int REQUEST_PERMISSION_CODE = 1000;
+
+    private ArrayList<String> AttributeList;
+    private ArrayList<String> ExampleList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -86,7 +87,8 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     private void startRecording()
     {
         System.out.println(startTime);
-        TouchDetected = new ArrayList<>();
+        AttributeList = new ArrayList<>();
+        ExampleList = new ArrayList<>();
         try {
             recorder.prepare();
         } catch (IOException e) {
@@ -151,7 +153,9 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     public void pinButtonDelete(View view) {
         long currentTimestamp = System.nanoTime();
         String touch = ""+((currentTimestamp-startTime-delay));
-        TouchDetected.add(touch);
+        String digit = "Delete";
+        AttributeList.add(digit);
+        ExampleList.add(touch);
 //        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         CharSequence text = textview.getText();
@@ -165,13 +169,15 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     public void pinButtonEnter(View view) {
         long currentTimestamp = System.nanoTime();
         String touch = ""+((currentTimestamp-startTime-delay));
-        TouchDetected.add(touch);
+        String digit = "Enter";
+        AttributeList.add(digit);
+        ExampleList.add(touch);
 //        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview3 = findViewById(R.id.textView3);
         TextView textview1 = findViewById(R.id.textView1);
 
         if (textview3.length() == 4) {
-            if (pinNr < 5) {
+            if (pinNr < 1) {
 //                Toast.makeText(pinEntry.this, "" + textview3.getText() + " Has Been Entered", Toast.LENGTH_SHORT).show();
                 String figure = "";
                 textview3.setText(figure);
@@ -179,11 +185,11 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
                 String title = "Enter PIN [" + (pinList.get(pinNr)) + "]";
                 textview1.setText(title);
                 pinNr = pinNr + 1;
-            } else if (pinNr == 5) {
+            } else if (pinNr == 1) {
                 ArrayList<String> properList = ((Data) this.getApplication()).getList();
                 stopRecording();
-                System.out.println(TouchDetected.toString());
-                processList(properList,TouchDetected);
+                System.out.println(ExampleList.toString());
+                processList(properList,ExampleList,AttributeList);
                 finish();
             }
 
@@ -197,7 +203,9 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     {
         long currentTimestamp = System.nanoTime();
         String touch = ""+((currentTimestamp-startTime-delay));
-        TouchDetected.add(touch);
+        String digit = "3";
+        AttributeList.add(digit);
+        ExampleList.add(touch);
 ////        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
@@ -209,7 +217,9 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     public void pinButton6(View view) {
         long currentTimestamp = System.nanoTime();
         String touch = ""+((currentTimestamp-startTime-delay));
-        TouchDetected.add(touch);
+        String digit = "6";
+        AttributeList.add(digit);
+        ExampleList.add(touch);
         TextView textview = findViewById(R.id.textView3);
 ////        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         if (textview.length() < 4) {
@@ -221,7 +231,9 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     public void pinButton9(View view) {
         long currentTimestamp = System.nanoTime();
         String touch = ""+((currentTimestamp-startTime-delay));
-        TouchDetected.add(touch);
+        String digit = "9";
+        AttributeList.add(digit);
+        ExampleList.add(touch);
 ////        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 
         TextView textview = findViewById(R.id.textView3);
@@ -235,7 +247,9 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     public void pinButton0(View view) {
         long currentTimestamp = System.nanoTime();
         String touch = ""+((currentTimestamp-startTime-delay));
-        TouchDetected.add(touch);
+        String digit = "0";
+        AttributeList.add(digit);
+        ExampleList.add(touch);
 //        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 
         TextView textview = findViewById(R.id.textView3);
@@ -249,7 +263,9 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     public void pinButton2(View view) {
         long currentTimestamp = System.nanoTime();
         String touch = ""+((currentTimestamp-startTime-delay));
-        TouchDetected.add(touch);
+        String digit = "2";
+        AttributeList.add(digit);
+        ExampleList.add(touch);
 //        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
@@ -262,7 +278,9 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     public void pinButton5(View view) {
         long currentTimestamp = System.nanoTime();
         String touch = ""+((currentTimestamp-startTime-delay));
-        TouchDetected.add(touch);
+        String digit = "5";
+        AttributeList.add(digit);
+        ExampleList.add(touch);
 //        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
@@ -275,7 +293,9 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     public void pinButton8(View view) {
         long currentTimestamp = System.nanoTime();
         String touch = ""+((currentTimestamp-startTime-delay));
-        TouchDetected.add(touch);
+        String digit = "8";
+        AttributeList.add(digit);
+        ExampleList.add(touch);
 //        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
@@ -288,7 +308,9 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     public void pinButton1(View view) {
         long currentTimestamp = System.nanoTime();
         String touch = ""+((currentTimestamp-startTime-delay));
-        TouchDetected.add(touch);
+        String digit = "1";
+        AttributeList.add(digit);
+        ExampleList.add(touch);
 //        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         view.playSoundEffect(android.view.SoundEffectConstants.CLICK);
@@ -302,7 +324,9 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     public void pinButton4(View view) {
         long currentTimestamp = System.nanoTime();
         String touch = ""+((currentTimestamp-startTime-delay));
-        TouchDetected.add(touch);
+        String digit = "4";
+        AttributeList.add(digit);
+        ExampleList.add(touch);
 //        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         TextView textview = findViewById(R.id.textView3);
         if (textview.length() < 4) {
@@ -315,7 +339,9 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     public void pinButton7(View view) {
         long currentTimestamp = System.nanoTime();
         String touch = ""+((currentTimestamp-startTime-delay));
-        TouchDetected.add(touch);
+        String digit = "7";
+        AttributeList.add(digit);
+        ExampleList.add(touch);
         TextView textview = findViewById(R.id.textView3);
 //        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         if (textview.length() < 4) {
@@ -325,7 +351,7 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     }
 
 
-    public void processList(ArrayList<String> properList,ArrayList<String> TouchList)
+    public void processList(ArrayList<String> properList,ArrayList<String> TouchList,ArrayList<String> dataList)
     {
         Workbook workbook = new XSSFWorkbook();
         String fullpath = newpath + "data.xlsx";
@@ -344,11 +370,12 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
         }
         try
         {
-            int currentVar =0;
+            int currentRow =0;
             FileOutputStream fileOut = new FileOutputStream(excelFile); //Opening the file
             Sheet sheet = workbook.createSheet("Sheet 1");
-            Row variables = sheet.createRow(0);
-            Row values = sheet.createRow(1);
+            ArrayList<String> userVarListValues = new ArrayList<>();
+            ArrayList<String> userVarListKeys = new ArrayList<>();
+            ArrayList<String> userTouchDataList = new ArrayList<>();
 
             for(String item : properList)
             {
@@ -357,27 +384,63 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
                 if (location != -1)
                 {
                     String key = item.substring(0, location);
+                    userVarListKeys.add(key);
                     String value = item.substring(location+seperator.length());
-                    variables.createCell(properList.indexOf(item)).setCellValue(key);
-                    values.createCell(properList.indexOf(item)).setCellValue(value);
-                    currentVar = properList.indexOf(item);
+                    userVarListValues.add(value);
                 }
             }
-            System.out.println(currentVar);
-            variables.createCell(currentVar+1).setCellValue("Touch (ms)");
+            System.out.println(userVarListKeys);
 
-            for(String item : TouchList)
+            userVarListKeys.add("Character");
+            userVarListKeys.add("TouchNs");
+
+            int i=0;
+            Row variableKeyRow = sheet.createRow(i);
+            while( i < userVarListKeys.size())
             {
-                if(TouchList.indexOf(item) == 0)
+                variableKeyRow.createCell(i).setCellValue(userVarListKeys.get(i));
+                i++;
+            }
+            int j=0;
+            while( j < TouchList.size())
+            {
+                j++;
+                Row nextRow = sheet.createRow(j);
+                for(int cellColumn=0;cellColumn<userVarListValues.size();cellColumn++)
                 {
-                    values.createCell(currentVar+1).setCellValue(item);
+                    nextRow.createCell(cellColumn).setCellValue(userVarListValues.get(cellColumn));
                 }
-                else
+                for(int cellColumn=(userVarListValues.size());cellColumn < (userVarListKeys.size());cellColumn++)
                 {
-                    Row touches = sheet.createRow(TouchList.indexOf(item)+1);
-                    touches.createCell(currentVar+1).setCellValue(item);
+                    System.out.println(userVarListKeys.get(cellColumn));
+
+                    if(userVarListKeys.get(cellColumn).equals("Character"))
+                    {
+                        nextRow.createCell(cellColumn).setCellValue(dataList.get(j-1));
+                    }
+                    else if(userVarListKeys.get(cellColumn).equals("TouchNs"))
+                    {
+                        nextRow.createCell(cellColumn).setCellValue(TouchList.get(j-1));
+                    }
                 }
             }
+
+
+//            System.out.println(currentVar);
+//            variables.createCell(currentVar+1).setCellValue("Touch (ms)");
+//
+//            for(String item : TouchList)
+//            {
+//                if(TouchList.indexOf(item) == 0)
+//                {
+//                    values.createCell(currentVar+1).setCellValue(item);
+//                }
+//                else
+//                {
+//                    Row touches = sheet.createRow(TouchList.indexOf(item)+1);
+//                    touches.createCell(currentVar+1).setCellValue(item);
+//                }
+//            }
             workbook.write(fileOut); //Writing all your row column inside the file
             fileOut.flush();
             fileOut.close(); //closing the file and done
@@ -392,7 +455,7 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     {
         long currentTimestamp = System.nanoTime();
         String touch = ""+((currentTimestamp-startTime-delay));
-        TouchDetected.add(touch);
+        ExampleList.add(touch);
         return false;
     }
 }
