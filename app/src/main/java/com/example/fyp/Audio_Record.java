@@ -35,8 +35,8 @@ public class Audio_Record extends Activity
     }
 
     private void setButtonHandlers() {
-        (findViewById(R.id.btnStart)).setOnClickListener(btnClick);
-        (findViewById(R.id.btnStop)).setOnClickListener(btnClick);
+//        (findViewById(R.id.btnStart)).setOnClickListener(btnClick);
+//        (findViewById(R.id.btnStop)).setOnClickListener(btnClick);
     }
 
     private void enableButton(int id, boolean isEnable) {
@@ -44,8 +44,8 @@ public class Audio_Record extends Activity
     }
 
     private void enableButtons(boolean isRecording) {
-        enableButton(R.id.btnStart, !isRecording);
-        enableButton(R.id.btnStop, isRecording);
+//        enableButton(R.id.btnStart, !isRecording);
+//        enableButton(R.id.btnStop, isRecording);
     }
 
     int BufferElements2Rec = 1024; // want to play 2048 (2K) since 2 bytes we use only 1024
@@ -126,22 +126,22 @@ public class Audio_Record extends Activity
         }
     }
 
-    private View.OnClickListener btnClick = new View.OnClickListener() {
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.btnStart: {
-                    enableButtons(true);
-                    startRecording();
-                    break;
-                }
-                case R.id.btnStop: {
-                    enableButtons(false);
-                    stopRecording();
-                    break;
-                }
-            }
-        }
-    };
+//    private View.OnClickListener btnClick = new View.OnClickListener() {
+//        public void onClick(View v) {
+////            switch (v.getId()) {
+////                case R.id.btnStart: {
+////                    enableButtons(true);
+////                    startRecording();
+////                    break;
+////                }
+////                case R.id.btnStop: {
+////                    enableButtons(false);
+////                    stopRecording();
+////                    break;
+////                }
+//            }
+//        }
+//    };
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
