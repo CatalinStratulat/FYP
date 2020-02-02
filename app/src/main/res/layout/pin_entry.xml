@@ -54,12 +54,12 @@
         android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/button7"
+                    android:id="@+id/button1"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="20dp"
-                    android:onClick="pinButton7"
-                    android:text="7" />
+                    android:onClick="pinButton1"
+                    android:text="1" />
 
                 <Button
                     android:id="@+id/button4"
@@ -70,12 +70,12 @@
                     android:text="4" />
 
                 <Button
-                    android:id="@+id/button1"
+                    android:id="@+id/button7"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="20dp"
-                    android:onClick="pinButton1"
-                    android:text="1" />
+                    android:onClick="pinButton7"
+                    android:text="7" />
 
                 <Button
                     android:id="@+id/buttonDelete"
@@ -98,12 +98,12 @@
         android:layout_toEndOf="@id/leftButtons">
 
         <Button
-            android:id="@+id/button8"
+            android:id="@+id/button2"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="20dp"
-            android:onClick="pinButton8"
-            android:text="8" />
+            android:onClick="pinButton2"
+            android:text="2" />
 
         <Button
             android:id="@+id/button5"
@@ -114,12 +114,12 @@
             android:text="5" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/button8"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="20dp"
-            android:onClick="pinButton2"
-            android:text="2" />
+            android:onClick="pinButton8"
+            android:text="8" />
 
         <Button
             android:id="@+id/button0"
@@ -142,12 +142,12 @@
         android:layout_toEndOf="@id/centerButtons">
 
         <Button
-            android:id="@+id/button9"
+            android:id="@+id/button3"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="20dp"
-            android:onClick="pinButton9"
-            android:text="9" />
+            android:onClick="pinButton3"
+            android:text="3" />
 
         <Button
             android:id="@+id/button6"
@@ -158,12 +158,12 @@
             android:text="6" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/button9"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="20dp"
-            android:onClick="pinButton3"
-            android:text="3" />
+            android:onClick="pinButton9"
+            android:text="9" />
 
         <Button
             android:id="@+id/buttonEnter"
