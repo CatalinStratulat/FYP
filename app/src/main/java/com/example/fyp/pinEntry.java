@@ -60,15 +60,18 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pin_entry);
+
+        if (!CheckPermissionFromDevice()) {
+            requestPermission();
+        }
+
         createFileStructure();
 
         //the whole screen becomes sensitive to touch
         RelativeLayout mLinearLayoutMain = findViewById(R.id.relativeLayout);
         mLinearLayoutMain.setOnTouchListener(this);
 
-        if (!CheckPermissionFromDevice()) {
-            requestPermission();
-        }
+
         setupMediaRecorders();
         startRecording();
     }
