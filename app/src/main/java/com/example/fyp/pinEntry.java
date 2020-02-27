@@ -440,8 +440,8 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     public boolean onTouch(View v, MotionEvent event)
     {
         long currentTimestamp = System.nanoTime();
-        String touch = ""+((currentTimestamp-startTime-delay));
-        ExampleList.add(touch);
+//        String touch = ""+((currentTimestamp-startTime-delay));
+//        ExampleList.add(touch);
         return false;
     }
 }
