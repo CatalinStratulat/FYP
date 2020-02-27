@@ -34,7 +34,6 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
     private long delay = 85000000;
     private String newpath = path + "/FYP" + "/Pins" + "/" + UUID.randomUUID().toString() + "/";
     private MediaRecorder recorder = null;
-    private final int REQUEST_PERMISSION_CODE = 1000;
 
     private ArrayList<String> AttributeList;
     private ArrayList<String> ExampleList;
@@ -61,9 +60,6 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pin_entry);
 
-        if (!CheckPermissionFromDevice()) {
-            requestPermission();
-        }
 
         createFileStructure();
 
@@ -124,34 +120,7 @@ public class pinEntry extends AppCompatActivity implements View.OnTouchListener 
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_PERMISSION_CODE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
-                }
-            }
-            break;
-        }
-    }
 
-    private void requestPermission() {
-        ActivityCompat.requestPermissions(this, new String[]
-                {
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.RECORD_AUDIO
-                }, REQUEST_PERMISSION_CODE);
-    }
-
-    private boolean CheckPermissionFromDevice() {
-        int storage_result = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        int record_audio_result = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
-        return storage_result == PackageManager.PERMISSION_GRANTED &&
-                record_audio_result == PackageManager.PERMISSION_GRANTED;
-    }
 
     public void pinButtonDelete(View view) {
         long currentTimestamp = System.nanoTime();
